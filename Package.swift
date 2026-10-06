@@ -1,0 +1,71 @@
+// swift-tools-version:5.5
+
+import PackageDescription
+
+let package = Package(
+    name: "AdjustSdk",
+    platforms: [
+        .iOS(.v13),
+        .tvOS(.v12)
+    ],
+    products: [
+        .library(name: "AdjustSdk", targets: ["AdjustSdk"]),
+        .library(name: "AdjustUnsigned", targets: ["AdjustUnsigned"]),
+        .library(name: "AdjustWebBridge", targets: ["AdjustWebBridge", "AdjustSdk"]),
+        .library(name: "AdjustGoogleOdm", targets: ["AdjustGoogleOdm", "AdjustSdk"])
+    ],
+    dependencies: [
+        .package(
+            url: "https://github.com/adjust/adjust_signature_sdk.git",
+            .exact("5.0.0")
+        ),
+        .package(
+            url: "https://github.com/googleads/google-ads-on-device-conversion-ios-sdk.git",
+            "2.0.0"..<"4.0.0"
+        )
+    ],
+    targets: [
+        .target(
+            name: "AdjustSdk",
+            dependencies: [
+                .product(name: "AdjustSignature", package: "adjust_signature_sdk")
+            ],
+            path: "Adjust",
+            resources: [
+                .copy("PrivacyInfo.xcprivacy"),
+            ],
+            cSettings: [
+                .headerSearchPath(""),
+                .headerSearchPath("Internal")
+            ]
+        ),
+        .target(
+            name: "AdjustUnsigned",
+            path: "AdjustUnsigned",
+            resources: [
+                .copy("PrivacyInfo.xcprivacy"),
+            ],
+            cSettings: [
+                .headerSearchPath(""),
+                .headerSearchPath("Internal")
+            ]
+        ),
+        .target(
+            name: "AdjustWebBridge",
+            path: "AdjustBridge",
+            cSettings: [
+                .headerSearchPath(""),
+                .headerSearchPath("../Adjust/include"),
+            ]
+        ),
+        .target(
+            name: "AdjustGoogleOdm",
+            dependencies: [
+                .product(name: "GoogleAdsOnDeviceConversion", package: "google-ads-on-device-conversion-ios-sdk")
+            ],
+            path: "plugins/odm",
+            sources: [ "headers", "sources/spm"],
+            publicHeadersPath: "headers"
+        )
+    ]
+)

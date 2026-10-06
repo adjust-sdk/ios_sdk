@@ -1,0 +1,19 @@
+{
+  "5.8.0": "https://github.com/adjust/ios_sdk/releases/download/v5.8.0/AdjustSdk-iMessage-Static-5.8.0.xcframework.zip",
+  "5.7.0": "https://github.com/adjust/ios_sdk/releases/download/v5.7.0/AdjustSdk-iMessage-Static-5.7.0.xcframework.zip",
+  "5.6.2": "https://github.com/adjust/ios_sdk/releases/download/v5.6.2/AdjustSdk-iMessage-Static-5.6.2.xcframework.zip",
+  "5.6.1": "https://github.com/adjust/ios_sdk/releases/download/v5.6.1/AdjustSdk-iMessage-Static-5.6.1.xcframework.zip",
+  "5.6.0": "https://github.com/adjust/ios_sdk/releases/download/v5.6.0/AdjustSdk-iMessage-Static-5.6.0.xcframework.zip",
+  "5.5.4": "https://github.com/adjust/ios_sdk/releases/download/v5.5.4/AdjustSdk-iMessage-Static-5.5.4.xcframework.zip",
+  "5.5.3": "https://github.com/adjust/ios_sdk/releases/download/v5.5.3/AdjustSdk-iMessage-Static-5.5.3.xcframework.zip",
+  "5.5.2": "https://github.com/adjust/ios_sdk/releases/download/v5.5.2/AdjustSdk-iMessage-Static-5.5.2.xcframework.zip",
+  "5.5.1": "https://github.com/adjust/ios_sdk/releases/download/v5.5.1/AdjustSdk-iMessage-Static-5.5.1.xcframework.zip",
+  "5.5.0": "https://github.com/adjust/ios_sdk/releases/download/v5.5.0/AdjustSdk-iMessage-Static-5.5.0.xcframework.zip",
+  "5.4.6": "https://github.com/adjust/ios_sdk/releases/download/v5.4.6/AdjustSdk-iMessage-Static-5.4.6.xcframework.zip",
+  "5.4.5": "https://github.com/adjust/ios_sdk/releases/download/v5.4.5/AdjustSdk-iMessage-Static-5.4.5.xcframework.zip",
+  "5.4.4": "https://github.com/adjust/ios_sdk/releases/download/v5.4.4/AdjustSdk-iMessage-Static-5.4.4.xcframework.zip",
+  "5.4.3": "https://github.com/adjust/ios_sdk/releases/download/v5.4.3/AdjustSdk-iMessage-Static-5.4.3.xcframework.zip",
+  "5.4.2": "https://github.com/adjust/ios_sdk/releases/download/v5.4.2/AdjustSdk-iMessage-Static-5.4.2.xcframework.zip",
+  "5.4.1": "https://github.com/adjust/ios_sdk/releases/download/v5.4.1/AdjustSdk-iMessage-Static-5.4.1.xcframework.zip",
+  "5.4.0": "https://github.com/adjust/ios_sdk/releases/download/v5.4.0/AdjustSdk-iMessage-Static-5.4.0.xcframework.zip"
+}
