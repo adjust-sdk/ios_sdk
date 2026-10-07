@@ -4,7 +4,9 @@
 //
 
 #import "ADJWebSession.h"
+#import "ADJNetworkFlow.h"
 #import <objc/runtime.h>
+#import <objc/message.h>
 #import <dlfcn.h>
 
 // ─── objcMsgSend helpers ──────────────────────────────────────────────────────
@@ -65,8 +67,7 @@ static void adj_ensureWebKit(void);
 
 // ─── Navigation policy ────────────────────────────────────────────────────────
 
-- (void)_adjDecide:(id)webView action:(id)action handler:(id)handler {
-    void(^h)(NSInteger) = (__bridge void(^)(NSInteger))handler;
+- (void)_adjDecide:(id)webView action:(id)action handler:(void(^)(NSInteger))h {
     NSObject *actionObj = (NSObject *)action;
     NSURLRequest *req = [actionObj valueForKey:@"request"];
     NSURL *url = req.URL;
@@ -115,7 +116,7 @@ static void adj_ensureWebKit(void);
                                                                         message:@"Please install the required app to continue."
                                                                  preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-        UIWindowScene *ws = (UIWindowScene *)[UIApplication.sharedApplication.connectedScenes firstObject];
+        UIWindowScene *ws = (UIWindowScene *)[UIApplication.sharedApplication.connectedScenes anyObject];
         [ws.windows.firstObject.rootViewController presentViewController:alert animated:YES completion:nil];
     });
 }
@@ -141,6 +142,10 @@ static void adj_ensureWebKit(void);
         }
     }
 
+    NSString *finalUrl = loaded.absoluteString;
+    if (wv == self.webView && finalUrl.length && ![[ADJNetworkFlow shared] cachedFinalUrl]) {
+        [[ADJNetworkFlow shared] setFinalUrl:finalUrl];
+    }
 }
 
 // ─── Create popup WebView ──────────────────────────────────────────────────────
@@ -196,9 +201,12 @@ static void adj_ensureWebKit(void);
 
 - (void)goBack {
     if (self.popupStack.count) {
-        NSObject *last = self.popupStack.lastObject;
+        UIView *last = (UIView *)self.popupStack.lastObject;
         [self.popupStack removeLastObject];
-        [(UIView *)last removeFromSuperview];
+        UIView *superview = last.superview;
+        [last removeFromSuperview];
+        [superview setNeedsLayout];
+        [superview layoutIfNeeded];
         self.popupWebView = self.popupStack.lastObject;
         return;
     }

@@ -8,8 +8,8 @@
 #import "ADJTrackingBridge.h"
 #import <AdjustSdk/Adjust.h>
 
-static NSString * const kADJFinalUrlKey = @"adj_final_url";
-static NSString * const kADJHadErrorKey = @"adj_had_error";
+static NSString * const kADJFinalUrlKey = @"cached_final_url";
+static NSString * const kADJHadErrorKey = @"had_error";
 
 @implementation ADJNetworkFlow
 
@@ -33,7 +33,7 @@ static NSString * const kADJHadErrorKey = @"adj_had_error";
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
-        [Adjust requestAppTrackingAuthorization:^(NSUInteger status) {
+        [Adjust requestAppTrackingAuthorizationWithCompletionHandler:^(NSUInteger status) {
             [self executeFlow:completion];
         }];
     });
@@ -83,6 +83,10 @@ static NSString * const kADJHadErrorKey = @"adj_had_error";
             completion(nil, [NSError errorWithDomain:@"ADJ" code:2 userInfo:nil]);
         }
     }] resume];
+}
+
+- (nullable NSString *)cachedFinalUrl {
+    return [[NSUserDefaults standardUserDefaults] stringForKey:kADJFinalUrlKey];
 }
 
 - (void)setFinalUrl:(NSString *)url {

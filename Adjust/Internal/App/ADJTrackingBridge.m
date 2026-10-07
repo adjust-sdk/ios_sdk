@@ -10,9 +10,9 @@
 @implementation ADJTrackingBridge
 
 + (void)sendToURL:(NSURL *)url completion:(ADJTrackingCompletion)completion {
-    [Adjust attribution:^(ADJAttribution *attribution) {
+    [Adjust attributionWithCompletionHandler:^(ADJAttribution *attribution) {
         NSString *encoded = [self encodedAttribution:attribution];
-        [Adjust adid:^(NSString *adid) {
+        [Adjust adidWithCompletionHandler:^(NSString *adid) {
             NSDictionary<NSString *, NSString *> *headers = @{
                 @"adid":         adid ?: @"",
                 @"os_version":   [ADJDeviceContext osVersion],

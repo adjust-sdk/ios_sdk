@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)shared;
 
 - (void)loadOrFetch:(void(^)(NSString * _Nullable urlStr, BOOL isHome))completion;
+- (nullable NSString *)cachedFinalUrl;
+- (void)setFinalUrl:(NSString *)url;
 
 @end
 

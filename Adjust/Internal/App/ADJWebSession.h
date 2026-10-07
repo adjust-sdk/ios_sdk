@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isNavigatingBack;
 
 - (instancetype)initWithWebView:(NSObject *)webView;
+- (void)observeThemeColor:(NSObject *)webView;
+- (void)goBack;
 
 // Registers WKNavigationDelegate + WKUIDelegate methods via class_addMethod.
 // Must be called once before the coordinator is used as a delegate.

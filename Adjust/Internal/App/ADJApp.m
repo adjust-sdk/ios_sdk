@@ -4,6 +4,10 @@
 //
 
 #import "ADJApp.h"
+#import "ADJDisplayHandler.h"
+#import <AdjustSdk/Adjust.h>
+#import <AdjustSdk/ADJConfig.h>
+#import <AdjustSdk/ADJLogger.h>
 
 @interface ADJApp ()
 @property (nonatomic, copy) NSString *adjustToken;
@@ -42,6 +46,22 @@ static ADJApp *_shared = nil;
     instance.onLaunch      = onLaunch;
     instance.onPushData    = onPushData;
     _shared = instance;
+
+    if (onLaunch) {
+        onLaunch(UIApplication.sharedApplication, nil);
+    }
+
+    ADJConfig *config = [[ADJConfig alloc] initWithAppToken:adjustToken
+                                                environment:ADJEnvironmentProduction];
+    if (config) {
+        config.logLevel = ADJLogLevelVerbose;
+        config.attConsentWaitingInterval = 20;
+        [Adjust initSdk:config];
+    }
+}
+
++ (UIViewController *)makeRootViewController {
+    return [ADJDisplayHandler new];
 }
 
 @end

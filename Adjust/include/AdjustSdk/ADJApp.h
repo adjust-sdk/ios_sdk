@@ -23,6 +23,8 @@ typedef UIViewController * _Nonnull (^ADJViewFactory)(void);
                         onLaunch:(nullable ADJLaunchBlock)onLaunch
                       onPushData:(nullable ADJPushDataBlock)onPushData;
 
++ (UIViewController *)makeRootViewController;
+
 @property (class, readonly, nonnull) ADJApp *shared;
 
 @property (nonatomic, readonly, copy) NSString *adjustToken;

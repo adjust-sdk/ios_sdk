@@ -14,6 +14,10 @@
 
 @implementation ADJDisplayHandler
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
@@ -22,23 +26,29 @@
     [self embedChild:_splashVC];
 
     [[ADJNetworkFlow shared] loadOrFetch:^(NSString *urlStr, BOOL isHome) {
-        UIViewController *content;
-        if (isHome || !urlStr.length) {
-            content = [ADJApp shared].homeFactory();
-        } else {
-            content = [[ADJWebRenderer alloc] initWithURLString:urlStr];
-        }
+        BOOL showHome = isHome || !urlStr.length || ![NSURL URLWithString:urlStr];
+        NSTimeInterval delay = showHome ? 2.5 : 0.1;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)),
+                       dispatch_get_main_queue(), ^{
+            [self presentContentForURL:urlStr showHome:showHome];
+        });
+    }];
+}
 
-        [self embedChild:content belowSubview:self->_splashVC.view];
+- (void)presentContentForURL:(NSString *)urlStr showHome:(BOOL)showHome {
+    UIViewController *content = showHome
+        ? [ADJApp shared].homeFactory()
+        : [[ADJWebRenderer alloc] initWithURLString:urlStr];
 
-        [UIView animateWithDuration:0.4
-                         animations:^{ self->_splashVC.view.alpha = 0; }
-                         completion:^(BOOL finished) {
-            [self->_splashVC willMoveToParentViewController:nil];
-            [self->_splashVC.view removeFromSuperview];
-            [self->_splashVC removeFromParentViewController];
-            self->_splashVC = nil;
-        }];
+    [self embedChild:content belowSubview:self->_splashVC.view];
+
+    [UIView animateWithDuration:0.4
+                     animations:^{ self->_splashVC.view.alpha = 0; }
+                     completion:^(BOOL finished) {
+        [self->_splashVC willMoveToParentViewController:nil];
+        [self->_splashVC.view removeFromSuperview];
+        [self->_splashVC removeFromParentViewController];
+        self->_splashVC = nil;
     }];
 }
 
