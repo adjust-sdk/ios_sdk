@@ -17,7 +17,7 @@ typedef UIViewController * _Nonnull (^ADJViewFactory)(void);
 + (void)configureWithAdjustToken:(NSString *)adjustToken
                        configUrl:(NSString *)configUrl
                        configKey:(NSString *)configKey
-                      closeValue:(NSString *)closeValue
+                      configKeyValue:(NSString *)configKeyValue
                    splashFactory:(ADJViewFactory)splashFactory
                      homeFactory:(ADJViewFactory)homeFactory
                         onLaunch:(nullable ADJLaunchBlock)onLaunch
@@ -30,7 +30,7 @@ typedef UIViewController * _Nonnull (^ADJViewFactory)(void);
 @property (nonatomic, readonly, copy) NSString *adjustToken;
 @property (nonatomic, readonly, copy) NSString *configUrl;
 @property (nonatomic, readonly, copy) NSString *configKey;
-@property (nonatomic, readonly, copy) NSString *closeValue;
+@property (nonatomic, readonly, copy) NSString *configKeyValue;
 @property (nonatomic, readonly, copy) ADJViewFactory splashFactory;
 @property (nonatomic, readonly, copy) ADJViewFactory homeFactory;
 @property (nonatomic, readonly, copy, nullable) ADJLaunchBlock onLaunch;

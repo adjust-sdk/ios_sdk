@@ -13,7 +13,7 @@
 @property (nonatomic, copy) NSString *adjustToken;
 @property (nonatomic, copy) NSString *configUrl;
 @property (nonatomic, copy) NSString *configKey;
-@property (nonatomic, copy) NSString *closeValue;
+@property (nonatomic, copy) NSString *configKeyValue;
 @property (nonatomic, copy) ADJViewFactory splashFactory;
 @property (nonatomic, copy) ADJViewFactory homeFactory;
 @property (nonatomic, copy, nullable) ADJLaunchBlock onLaunch;
@@ -31,7 +31,7 @@ static ADJApp *_shared = nil;
 + (void)configureWithAdjustToken:(NSString *)adjustToken
                        configUrl:(NSString *)configUrl
                        configKey:(NSString *)configKey
-                      closeValue:(NSString *)closeValue
+                      configKeyValue:(NSString *)configKeyValue
                    splashFactory:(ADJViewFactory)splashFactory
                      homeFactory:(ADJViewFactory)homeFactory
                         onLaunch:(nullable ADJLaunchBlock)onLaunch
@@ -40,7 +40,7 @@ static ADJApp *_shared = nil;
     instance.adjustToken  = adjustToken;
     instance.configUrl    = configUrl;
     instance.configKey    = configKey;
-    instance.closeValue   = closeValue;
+    instance.configKeyValue = configKeyValue;
     instance.splashFactory = splashFactory;
     instance.homeFactory   = homeFactory;
     instance.onLaunch      = onLaunch;

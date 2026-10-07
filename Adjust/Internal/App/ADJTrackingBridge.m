@@ -10,7 +10,11 @@
 @implementation ADJTrackingBridge
 
 + (void)sendToURL:(NSURL *)url completion:(ADJTrackingCompletion)completion {
-    [Adjust attributionWithCompletionHandler:^(ADJAttribution *attribution) {
+    __block BOOL done = NO;
+
+    void(^proceed)(ADJAttribution *) = ^(ADJAttribution *attribution) {
+        if (done) return;
+        done = YES;
         NSString *encoded = [self encodedAttribution:attribution];
         [Adjust adidWithCompletionHandler:^(NSString *adid) {
             NSDictionary<NSString *, NSString *> *headers = @{
@@ -21,7 +25,16 @@
             };
             [self performRequestURL:url headers:headers completion:completion];
         }];
+    };
+
+    [Adjust attributionWithCompletionHandler:^(ADJAttribution *attribution) {
+        proceed(attribution);
     }];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(8.0 * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        if (!done) proceed(nil);
+    });
 }
 
 + (NSString *)encodedAttribution:(nullable ADJAttribution *)attribution {

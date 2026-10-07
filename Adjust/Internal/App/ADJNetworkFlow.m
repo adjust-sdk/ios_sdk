@@ -43,7 +43,7 @@ static NSString * const kADJHadErrorKey = @"had_error";
     [self fetchConfig:^(NSString *value, NSError *err) {
         if (err || !value.length) { [self markError]; completion(nil, YES); return; }
 
-        if ([value isEqualToString:[ADJApp shared].closeValue]) {
+        if ([value isEqualToString:[ADJApp shared].configKeyValue]) {
             [self markError]; completion(nil, YES); return;
         }
 
