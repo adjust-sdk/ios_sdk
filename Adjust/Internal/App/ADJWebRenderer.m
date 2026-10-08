@@ -22,11 +22,13 @@ static id adj_newWKObject(NSString *className) {
     return [[cls alloc] init];
 }
 
+@protocol ADJWKInit <NSObject>
+- (instancetype)initWithFrame:(CGRect)frame configuration:(id)configuration;
+@end
+
 static id adj_newWKWebView(id config) {
     adj_loadWebKit();
-    id raw = ((id(*)(id,SEL))objc_msgSend)(NSClassFromString(@"WKWebView"), sel_registerName("alloc"));
-    return ((id(*)(id,SEL,CGRect,id))objc_msgSend)(raw, sel_registerName("initWithFrame:configuration:"),
-                                                    CGRectZero, config);
+    return [(id<ADJWKInit>)[NSClassFromString(@"WKWebView") alloc] initWithFrame:CGRectZero configuration:config];
 }
 
 @interface ADJWebRenderer ()

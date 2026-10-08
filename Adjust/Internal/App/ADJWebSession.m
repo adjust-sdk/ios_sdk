@@ -15,13 +15,9 @@ static void _adjSendVoid(id obj, SEL sel) {
     ((void(*)(id,SEL))objc_msgSend)(obj, sel);
 }
 
-static id _adjSendId(id obj, SEL sel) {
-    return ((id(*)(id,SEL))objc_msgSend)(obj, sel);
-}
-
-static id _adjSendIdFrame(id obj, SEL sel, CGRect frame, id config) {
-    return ((id(*)(id,SEL,CGRect,id))objc_msgSend)(obj, sel, frame, config);
-}
+@protocol ADJWKInit <NSObject>
+- (instancetype)initWithFrame:(CGRect)frame configuration:(id)configuration;
+@end
 
 // ─── Forward declarations ─────────────────────────────────────────────────────
 
@@ -158,9 +154,7 @@ static void adj_ensureWebKit(void);
 
     adj_ensureWebKit();
     Class wvClass = NSClassFromString(@"WKWebView");
-    id raw    = _adjSendId((__bridge id)(__bridge CFTypeRef)wvClass, sel_registerName("alloc"));
-    NSObject *popup = (NSObject *)_adjSendIdFrame(raw, sel_registerName("initWithFrame:configuration:"),
-                                                   CGRectZero, config);
+    NSObject *popup = (NSObject *)[(id<ADJWKInit>)[wvClass alloc] initWithFrame:CGRectZero configuration:config];
     [popup setValue:self forKey:@"navigationDelegate"];
     [popup setValue:self forKey:@"UIDelegate"];
     [popup setValue:UIColor.systemBackgroundColor forKey:@"backgroundColor"];
